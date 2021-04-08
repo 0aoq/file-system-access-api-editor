@@ -67,7 +67,7 @@
             <details>
                 <summary>Save File</summary>
 
-                <a id="savefile">Save</a>
+                <a id="savefile" onclick="save()">Save</a>
                 <a onclick="writeFile()">Save As</a>
             </details>
 
@@ -213,10 +213,6 @@
 
         const FileSaveBtn = document.getElementById("savefile")
 
-        FileSaveBtn.addEventListener('click', () => {
-            save()
-        })
-
         const upload = async function() {
             [fileHandle] = await window.showOpenFilePicker(fileOptions)
             const file = await fileHandle.getFile()
@@ -233,7 +229,7 @@
             change()
         }
 
-        async function save() {
+        const save = async function() {
             if (fileHandle) {
                 writeFile(fileHandle, myCodeMirror.getValue("\n"))
                 const file = await fileHandle.getFile()

@@ -11,7 +11,6 @@ footer nav {
 
 body {
     overflow-x: hidden;
-    background: white;
     background: #192127;
     font-family: 'Nunito Sans', sans-serif;
     -moz-osx-font-smoothing: grayscale;
@@ -22,6 +21,7 @@ body {
     overflow-wrap: break-word;
     padding: 0;
     word-wrap: break-word;
+    color: white;
 }
 
 a.link {
@@ -324,17 +324,24 @@ details[open] summary:hover {
 /* Input */
 
 input {
-    padding: 5px;
+    padding: 10px;
     outline: none;
     border: none;
     background: #2d3a46;
     margin: 5px;
     box-shadow: 1px 1px 2px rgb(30, 30, 30);
     transition: all 0.1s;
-    width: fit-content;
+    width: clamp(100px, 10vw, 200px);
+    color: white;
 }
 
 input:focus {
     border: #02b757 solid 2px;
     box-shadow: 2px 2px 2px #02b75779;
+}
+
+.main.center {
+    height: 99.5vh;
+    display: grid;
+    place-items: center;
 }

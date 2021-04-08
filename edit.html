@@ -68,7 +68,7 @@
                 <summary>Save File</summary>
 
                 <a id="savefile" onclick="save()">Save</a>
-                <a onclick="writeFile()">Save As</a>
+                <a onclick="writeFileAs()">Save As</a>
             </details>
 
             <details>
@@ -243,7 +243,7 @@
             await writable.close();
         }
 
-        async function writeFileAs() {
+        const writeFileAs = async function() {
             const handle = await window.showSaveFilePicker(fileOptions);
             writeFile(handle, PostTextArea.value)
             display(FileSaveBtn, true, "inline")

@@ -50,7 +50,7 @@
 }
 
 .cm-s-material .cm-keyword {
-    color: #C792EA;
+    color: rgb(212, 212, 212);
 }
 
 .cm-s-material .cm-operator {
@@ -75,7 +75,7 @@
 }
 
 .cm-s-material .cm-number {
-    color: #FF5370;
+    color: rgb(181, 206, 168);
 }
 
 .cm-s-material .cm-def {
@@ -83,7 +83,7 @@
 }
 
 .cm-s-material .cm-string {
-    color: #C3E88D;
+    color: rgb(132, 189, 105);
 }
 
 .cm-s-material .cm-string-2 {
@@ -95,11 +95,11 @@
 }
 
 .cm-s-material .cm-variable {
-    color: #f07178;
+    color: rgb(86, 156, 214);
 }
 
 .cm-s-material .cm-tag {
-    color: #FF5370;
+    color: #ee7a8e;
 }
 
 .cm-s-material .cm-meta {
@@ -111,11 +111,11 @@
 }
 
 .cm-s-material .cm-property {
-    color: #C792EA;
+    color: #7eabdb;
 }
 
 .cm-s-material .cm-qualifier {
-    color: #DECB6B;
+    color: #55789c;
 }
 
 .cm-s-material .cm-variable-3,

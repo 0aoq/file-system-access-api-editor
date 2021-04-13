@@ -5,8 +5,6 @@
 // CodeMirror 1 mode.
 // highlights keywords, strings, comments (no leveling supported! ("[==[")), tokens, basic indenting
 
-// LUA mode editted to fit Roblox LUAU (https://roblox.github.io/luau)
-
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
@@ -17,7 +15,7 @@
 })(function(CodeMirror) {
 "use strict";
 
-CodeMirror.defineMode("lua", function(config, parserConfig) {
+CodeMirror.defineMode("luau", function(config, parserConfig) {
   var indentUnit = config.indentUnit;
 
   function prefixRE(words) {
@@ -28,46 +26,44 @@ CodeMirror.defineMode("lua", function(config, parserConfig) {
   }
   var specials = wordRE(parserConfig.specials || []);
 
-  // long list of standard functions from lua manual, as long as the luau documentation
+  // long list of standard functions from lua manual
   var builtins = wordRE([
     "_G","_VERSION","assert","collectgarbage","dofile","error","getfenv","getmetatable","ipairs","load",
-    "loadstring","pairs","pcall","print","require",
-    "tonumber","tostring","type","return",
+    "loadfile","loadstring","module","next","pairs","pcall","print","rawequal","rawget","rawset","require",
+    "select","setfenv","setmetatable","tonumber","tostring","type","unpack","xpcall",
 
     "coroutine.create","coroutine.resume","coroutine.running","coroutine.status","coroutine.wrap","coroutine.yield",
+
+    "debug.debug","debug.getfenv","debug.gethook","debug.getinfo","debug.getlocal","debug.getmetatable",
+    "debug.getregistry","debug.getupvalue","debug.setfenv","debug.sethook","debug.setlocal","debug.setmetatable",
+    "debug.setupvalue","debug.traceback",
+
+    "close","flush","lines","read","seek","setvbuf","write",
+
+    "io.close","io.flush","io.input","io.lines","io.open","io.output","io.popen","io.read","io.stderr","io.stdin",
+    "io.stdout","io.tmpfile","io.type","io.write",
 
     "math.abs","math.acos","math.asin","math.atan","math.atan2","math.ceil","math.cos","math.cosh","math.deg",
     "math.exp","math.floor","math.fmod","math.frexp","math.huge","math.ldexp","math.log","math.log10","math.max",
     "math.min","math.modf","math.pi","math.pow","math.rad","math.random","math.randomseed","math.sin","math.sinh",
     "math.sqrt","math.tan","math.tanh",
 
+    "os.clock","os.date","os.difftime","os.execute","os.exit","os.getenv","os.remove","os.rename","os.setlocale",
+    "os.time","os.tmpname",
+
+    "package.cpath","package.loaded","package.loaders","package.loadlib","package.path","package.preload",
+    "package.seeall",
+
     "string.byte","string.char","string.dump","string.find","string.format","string.gmatch","string.gsub",
     "string.len","string.lower","string.match","string.rep","string.reverse","string.sub","string.upper",
 
     "table.concat","table.insert","table.maxn","table.remove","table.sort",
     
-    // Luau
-    "FindFirstChild","WaitForChild","GetService","Destroy","Vector3.new",
-    // Luau: Instance
-    "IsA","Instance.new",":GetChildren","Position","Size","BrickColor.new","Color","Clone()","Color3.FromRGB",
-    
-    // Enums
-    "Enum",
-    // Enum.KeyCode
-    "Enum.KeyCode","Enum.KeyCode.A","Enum.KeyCode.B","Enum.KeyCode.C","Enum.KeyCode.D","Enum.KeyCode.E","Enum.KeyCode.F","Enum.KeyCode.G",
-    "Enum.KeyCode.H","Enum.KeyCode.I","Enum.KeyCode.J","Enum.KeyCode.K","Enum.KeyCode.L","Enum.KeyCode.M","Enum.KeyCode.N","Enum.KeyCode.O",
-    "Enum.KeyCode.P","Enum.KeyCode.Q","Enum.KeyCode.R","Enum.KeyCode.T","Enum.KeyCode.S","Enum.KeyCode.U","Enum.KeyCode.V","Enum.KeyCode.W",
-    "Enum.KeyCode.X","Enum.KeyCode.Y","Enum.KeyCode.Z","Enum.KeyCode.Space","Enum.KeyCode.Shift",
+    "script.Parent"
   ]);
-  var keywords = wordRE(["and","break","elseif","false","nil","not","or",
+  var keywords = wordRE(["and","break","elseif","false","nil","not","or","return",
                          "true","function", "end", "if", "then", "else", "do",
-                         "while", "repeat", "until", "for", "in", "local","wait",
-                         
-                         // Script.Parent
-                        "script.Parent.Parent", "script.Parent", "script.Parent.Parent.Parent", "script.Parent.Parent.Parent.Parent",
-                        "script.Parent.Parent.Parent.Parent.Parent", "script"
-                        
-                        ]);
+                         "while", "repeat", "until", "for", "in", "local", "script", "Parent" ]);
 
   var indentTokens = wordRE(["function", "if","repeat","do", "\\(", "{"]);
   var dedentTokens = wordRE(["end", "until", "\\)", "}"]);
@@ -161,6 +157,6 @@ CodeMirror.defineMode("lua", function(config, parserConfig) {
   };
 });
 
-CodeMirror.defineMIME("text/x-lua", "lua");
+CodeMirror.defineMIME("text/x-luau", "luau");
 
 });

@@ -145,7 +145,11 @@ a {
 }
 
 .btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
+}
+
+.btn.outline {
+    background: none;
 }
 
 .btn:hover:active {
@@ -344,4 +348,66 @@ input:focus {
     height: 99.5vh;
     display: grid;
     place-items: center;
+}
+
+
+/* Card */
+
+.card {
+    padding: 10px;
+    background: #1f2830;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    transition: all 0.15s;
+}
+
+.card:hover {
+    transform: scale(1.01);
+    box-shadow: 1px 1px 2px rgb(30, 30, 30);
+}
+
+.card.backgroundeffect:hover {
+    background: #26303a;
+}
+
+.card.content {
+    padding: 10px;
+}
+
+
+/* Extra Stuff */
+
+.page-container {
+    width: 70%;
+    margin: auto;
+}
+
+
+/* Headings */
+
+h1 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+h2 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+h4 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+h5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

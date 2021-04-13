@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Editor</title>
+    <title>Blank - Editor</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/lib/codemirror.css"></script>
     <link rel="stylesheet" href="codemirror/lib/codemirror.css">
 
     <!-- Languages -->
@@ -14,12 +17,15 @@
     <script src="codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="codemirror/mode/css/css.js"></script>
     <script src="codemirror/mode/lua/lua.js"></script>
-    <script src="codemirror/mode/markdown/markdown.js"></script>
+    <script src="codemirror/mode/md/md.js"></script>
     <script src="codemirror/mode/xml/xml.js"></script>
+    <script src="codemirror/mode/powershell/powershell.js"></script>
+    <script src="codemirror/mode/python/python.js"></script>
+    <script src="codemirror/mode/sql/sql.js"></script>
+  	<script src="codemirror/mode/luau/luau.js"></script>
 
     <!-- Themes -->
-    <link rel="stylesheet" href="codemirror/theme/darcula.css">
-    <link rel="stylesheet" href="codemirror/theme/yonce.css">
+    <link rel="stylesheet" href="codemirror/theme/material.css">
 
     <!-- Lint -->
     <script src="codemirror/addon/lint/lint.js"></script>
@@ -45,32 +51,317 @@
 
     <script src="codemirror/addon/mode/loadmode.js"></script>
     <script src="codemirror/mode/meta.js"></script>
+    <script src="codemirror/keymap/sublime.js"></script>
 
     <!-- Stuff -->
 
-    <link rel="stylesheet" href="https://c-zero.web.app/css/flat.css">
-    <link rel="stylesheet" href="https://c-zero.web.app/css/btns.css">
-    <link rel="stylesheet" href="page.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="menubar.css">
+    <script src="https://c-zero.web.app/js/brickjs.js"></script>
+
+    <script src="https://kit.fontawesome.com/1c9144b004.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-    <header>
-        <nav>
-            <h1 class="navlogo">a0oq CodeMirror Editor</h1>
-            <div class="navlinks">
-                <a href="index.html" class="link active">Home</a>
-                <a href="edit.html" class="link">Editor</a>
-                <a href="docs" class="link">Use</a>
-                <a href="https://codemirror.net" class="link">Code Mirror</a>
-            </div>
-        </nav>
-    </header>
+<datalist id="files">
+    <textarea id="file_one"></textarea>
+    <textarea id="file_two"></textarea>
+    <textarea id="file_three"></textarea>
+</datalist>
 
-    <article>
-        <span>An easy to use, basic code editor made using Code Mirror! Autocomplete activates on <code>left-alt</code> key.</span>
-        <br><br>
-        <img src="images/autocomplete.png" alt="autocomplete example">
-    </article>
+<body>
+    <div class="sidebar">
+        <div class="container" id="filebar">
+            <a href="#" class="btn" onclick="uploadFile()">Open File</a>
+            <a href="#" class="btn" onclick="uploadFolder()">Open Folder</a>
+            <details>
+                <summary>Save Files</summary>
+
+                <a id="savefile" onclick="save()">Save</a>
+                <a onclick="writeFileAs()">Save As</a>
+            </details>
+
+            <details>
+                <summary>File Options</summary>
+
+                <form id="modeform">
+                    <input type="text" id="mode">
+                    <button>Submit</button>
+                </form>
+            </details>
+
+            <div id="myFiles" style="margin-top: 10px;">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <span id="modeinfo">text/markdown</span>
+        <b><span id="loadingtxt" style="display: none;">Loading, please wait.</span></b>
+        <pre id="editor" style="font-size: 15px;"></pre>
+    </div>
+
+    <script src="./main.js"></script>
+    <script>
+        var docTitle = "Blank - Editor"
+        CodeMirror.modeURL = "codemirror/mode/%N/%N.js";
+        var myCodeMirror = CodeMirror(document.getElementById('editor'), {
+            value: "",
+            mode: "lua",
+            theme: "zero",
+            lineNumbers: true,
+            matchBrackets: true,
+            electricChars: true,
+            autoCloseBrackets: true,
+            autoClearEmptyLines: true,
+            extraKeys: {
+                "Alt": "autocomplete"
+            },
+            lintOnChange: true,
+            selfContain: true,
+            lint: true,
+            styleActiveLine: true,
+            autoCloseTags: true,
+            keyMap: "sublime"
+        });
+        myCodeMirror.setSize("100%", "100%");
+
+        /*myCodeMirror.on("keyup", function(cm, event) {
+            if (!cm.state.completionActive && event.keyCode != 13) {
+                CodeMirror.commands.autocomplete(cm, null, {
+                    completeSingle: false
+                });
+            }
+        });*/
+
+        myCodeMirror.on("keyup", function(cm, event) {
+            if (document.title == docTitle) {
+                document.title = document.title + '*'
+            }
+        });
+
+        var modeInput = document.getElementById("mode");
+        const modeInfo = document.getElementById("modeinfo")
+        CodeMirror.on(modeInput, "keypress", function(e) {
+            if (e.keyCode == 13) change();
+        });
+
+        function change() {
+            var val = modeInput.value,
+                m, mode, spec;
+            if (m = /.+\.([^.]+)$/.exec(val)) {
+                var info = CodeMirror.findModeByName(m[1]);
+                if (info) {
+                    mode = info.mode;
+                    spec = info.mime;
+                }
+            } else if (/\//.test(val)) {
+                var info = CodeMirror.findModeByMIME(val);
+                if (info) {
+                    mode = info.mode;
+                    spec = val;
+                }
+            } else {
+                mode = spec = val;
+            }
+            if (mode) {
+                myCodeMirror.setOption("mode", spec);
+                CodeMirror.autoLoadMode(myCodeMirror, mode);
+                document.getElementById("modeinfo").textContent = spec;
+            } else {
+				alert('No mode found!')
+            }
+        }
+
+        document.getElementById("modeform").addEventListener('submit', e => {
+            e.preventDefault()
+            change()
+        })
+
+        /* const themeinfo = document.getElementById("themeinfo")
+        const modebtn = document.getElementById("modebtn")
+        themeinfo.addEventListener('click', () => {
+            if (theme === 'yonce') {
+                theme = 'darcula'
+                themeinfo.innerText = "theme/darcula"
+                myCodeMirror.setOption("theme", "darcula")
+
+                modeInput.classList.remove('yonce')
+                modeInput.classList.add('darcula')
+
+                modebtn.classList.remove('yonce')
+                modebtn.classList.add('darcula')
+
+                document.body.style.background = "#313335"
+                themeinfo.style.color = "rgb(226, 101, 28)"
+                modeInfo.style.color = "rgb(226, 101, 28)"
+                document.body.classList.remove("buttons1")
+            } else {
+                theme = 'yonce'
+                themeinfo.innerText = "theme/yonce"
+                myCodeMirror.setOption("theme", "yonce")
+
+                modeInput.classList.add('yonce')
+                modeInput.classList.remove('darcula')
+
+                modebtn.classList.add('yonce')
+                modebtn.classList.remove('darcula')
+
+                document.body.style.background = "#1c1c1c"
+                themeinfo.style.color = "#942c59"
+                modeInfo.style.color = "#942c59"
+                document.body.classList.add("buttons1")
+            }
+        }) */
+
+        // Files
+
+        const fileOptions = {
+            types: [{
+                description: 'Text Files',
+                accept: { // Supported files
+                    'html/plain': ['.html'],
+                    'lua/plain': ['.lua'],
+                    'javascript/plain': ['.js'],
+                    'css/plain': ['.css'],
+                    'xml/plain': ['.xml'],
+                },
+            }, ],
+        };
+
+        // File Btns
+
+        let fileHandle
+        let directoryHandle
+
+        const FileSaveBtn = document.getElementById("savefile")
+
+        // Uploading
+
+        const uploadFolder = async function() {
+            if (directoryHandle != null) {
+                if (document.getElementById(directoryHandle.name)) {
+                    document.getElementById(directoryHandle.name).style.display = "none"
+                }
+            }
+
+            directoryHandle = await window.showDirectoryPicker()
+
+            document.getElementById('myFiles').innerHTML += `
+            <details id="${directoryHandle.name}">
+               <summary>${directoryHandle.name}</summary>
+            </details>
+            `
+
+            for await (let [name, handle] of directoryHandle) {
+                if (handle.kind == "file") {
+                    const file = await handle.getFile()
+                    const contents = await file.text()
+
+                    myCodeMirror.setOption("value", contents)
+                    window.sessionStorage.setItem(file.name, contents)
+
+                    document.title = file.name + " - Editor"
+                    docTitle = document.title
+
+                    document.getElementById(directoryHandle.name).innerHTML += `<a href="#" onclick="loadFile('${file.name}', true, ${directoryHandle.name})" id="${file.name}">${file.name}</a>`
+
+                    modeInput.value = file.name
+                    change()
+                } else if (handle.kind == "directory") {
+                    /* let directory = await directoryHandle.getDirectoryHandle(name)
+                  	document.getElementById(directoryHandle.name).innerHTML += `
+                    	<details id="${name}">
+                          <summary>${name}</summary>
+                      	</details>
+                    `
+                    
+                    for await (let [newFileName, newFileHandle] of directory) {
+                      document.getElementById(name).innerHTML += `<a href="#" onclick="loadFile('${directory + '/' + newFileName}')"id="${directory + '/' + newFileName}">${newFileName}</a>`
+                    } */
+
+                    console.log('Failed to open file: directories are not yet supported.')
+                }
+            }
+        }
+
+        const uploadFile = async function() {
+            [fileHandle] = await window.showOpenFilePicker(fileOptions)
+            const file = await fileHandle.getFile()
+            const contents = await file.text()
+            
+            if (!document.getElementById('UnsortedFiles')) {
+              document.getElementById('myFiles').innerHTML += `
+              <details id="UnsortedFiles">
+                 <summary>Unsorted</summary>
+              </details>
+              `
+            }
+
+            myCodeMirror.setOption("value", contents)
+
+            document.title = file.name + " - Editor"
+            docTitle = document.title
+
+            window.sessionStorage.setItem(file.name, contents)
+            document.getElementById('UnsortedFiles').innerHTML += `<a href="#" onclick="loadFile('${file.name}', false)" id="${file.name}">${file.name}</a>`
+
+            modeInput.value = file.name
+            change()
+        }
+
+        // Saving
+
+        const save = async function() {
+            document.title = document.title.replace('*', '')
+            if (fileHandle) {
+                writeFile(fileHandle, myCodeMirror.getValue("\n"))
+                const file = await fileHandle.getFile()
+                window.sessionStorage.setItem(file.name, myCodeMirror.getValue())
+            }
+        }
+
+        const writeFile = async function(fileHandle, contents) {
+            const writable = await fileHandle.createWritable();
+            await writable.write(contents);
+            await writable.close();
+        }
+
+        const writeFileAs = async function() {
+            const handle = await window.showSaveFilePicker(fileOptions);
+            writeFile(handle, PostTextArea.value)
+            display(FileSaveBtn, true, "inline")
+
+            fileHandle = handle
+
+            return handle;
+        }
+
+        // File tabs
+
+        const loadFile = async function(fileName, folder, folderName) {
+            if (folder) {
+                fileHandle = await directoryHandle.getFileHandle(fileName)
+            }
+
+            const files = document.getElementById("files")
+
+            document.getElementById('loadingtxt').style.display = "inline-block"
+            setTimeout(() => {
+                document.getElementById('loadingtxt').style.display = "none"
+            }, 100);
+
+            const file = window.sessionStorage.getItem(fileName)
+
+            myCodeMirror.setOption("value", file)
+            document.title = fileName + " - Editor"
+
+            docTitle = document.title
+
+            modeInput.value = fileName
+            change()
+        }
+    </script>
 </body>
 
 </html>

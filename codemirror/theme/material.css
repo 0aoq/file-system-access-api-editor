@@ -1,134 +1,130 @@
-/*
-  Name:       material
-  Author:     Mattia Astorino (http://github.com/equinusocio)
-  Website:    https://material-theme.site/
-*/
+/* Just a custom them I made. */
 
-.cm-s-material.CodeMirror {
+.cm-s-zero.CodeMirror {
     background-color: #192127;
     color: #EEFFFF;
 }
 
-.cm-s-material .CodeMirror-gutters {
+.cm-s-zero .CodeMirror-gutters {
     background: none;
     color: #546E7A;
     border: none;
 }
 
-.cm-s-material .CodeMirror-guttermarker,
-.cm-s-material .CodeMirror-guttermarker-subtle,
-.cm-s-material .CodeMirror-linenumber {
+.cm-s-zero .CodeMirror-guttermarker,
+.cm-s-zero .CodeMirror-guttermarker-subtle,
+.cm-s-zero .CodeMirror-linenumber {
     color: #546E7A;
 }
 
-.cm-s-material .CodeMirror-cursor {
+.cm-s-zero .CodeMirror-cursor {
     border-left: 1px solid #0084ff;
 }
 
-.cm-s-material div.CodeMirror-selected {
+.cm-s-zero div.CodeMirror-selected {
     background: rgba(128, 203, 196, 0.2);
 }
 
-.cm-s-material.CodeMirror-focused div.CodeMirror-selected {
+.cm-s-zero.CodeMirror-focused div.CodeMirror-selected {
     background: rgba(128, 203, 196, 0.2);
 }
 
-.cm-s-material .CodeMirror-line::selection,
-.cm-s-material .CodeMirror-line>span::selection,
-.cm-s-material .CodeMirror-line>span>span::selection {
+.cm-s-zero .CodeMirror-line::selection,
+.cm-s-zero .CodeMirror-line>span::selection,
+.cm-s-zero .CodeMirror-line>span>span::selection {
     background: rgba(128, 203, 196, 0.2);
 }
 
-.cm-s-material .CodeMirror-line::-moz-selection,
-.cm-s-material .CodeMirror-line>span::-moz-selection,
-.cm-s-material .CodeMirror-line>span>span::-moz-selection {
+.cm-s-zero .CodeMirror-line::-moz-selection,
+.cm-s-zero .CodeMirror-line>span::-moz-selection,
+.cm-s-zero .CodeMirror-line>span>span::-moz-selection {
     background: rgba(128, 203, 196, 0.2);
 }
 
-.cm-s-material .CodeMirror-activeline-background {
+.cm-s-zero .CodeMirror-activeline-background {
     background: #1f2830
 }
 
-.cm-s-material .cm-keyword {
-    color: rgb(212, 212, 212);
+.cm-s-zero .cm-keyword {
+    color: rgb(255, 145, 137);
 }
 
-.cm-s-material .cm-operator {
+.cm-s-zero .cm-operator {
     color: #89DDFF;
 }
 
-.cm-s-material .cm-variable-2 {
+.cm-s-zero .cm-variable-2 {
     color: #EEFFFF;
 }
 
-.cm-s-material .cm-variable-3,
-.cm-s-material .cm-type {
+.cm-s-zero .cm-variable-3,
+.cm-s-zero .cm-type {
     color: #f07178;
 }
 
-.cm-s-material .cm-builtin {
+.cm-s-zero .cm-builtin {
     color: #FFCB6B;
 }
 
-.cm-s-material .cm-atom {
+.cm-s-zero .cm-atom {
     color: #F78C6C;
 }
 
-.cm-s-material .cm-number {
+.cm-s-zero .cm-number {
     color: rgb(181, 206, 168);
 }
 
-.cm-s-material .cm-def {
+.cm-s-zero .cm-def {
     color: #82AAFF;
 }
 
-.cm-s-material .cm-string {
+.cm-s-zero .cm-string {
     color: rgb(132, 189, 105);
 }
 
-.cm-s-material .cm-string-2 {
+.cm-s-zero .cm-string-2 {
     color: #f07178;
 }
 
-.cm-s-material .cm-comment {
+.cm-s-zero .cm-comment {
     color: #546E7A;
 }
 
-.cm-s-material .cm-variable {
+.cm-s-zero .cm-variable {
     color: rgb(86, 156, 214);
 }
 
-.cm-s-material .cm-tag {
+.cm-s-zero .cm-tag {
     color: #ee7a8e;
 }
 
-.cm-s-material .cm-meta {
+.cm-s-zero .cm-meta {
     color: #FFCB6B;
 }
 
-.cm-s-material .cm-attribute {
+.cm-s-zero .cm-attribute {
     color: #C792EA;
 }
 
-.cm-s-material .cm-property {
+.cm-s-zero .cm-property {
     color: #7eabdb;
 }
 
-.cm-s-material .cm-qualifier {
+.cm-s-zero .cm-qualifier {
     color: #55789c;
 }
 
-.cm-s-material .cm-variable-3,
-.cm-s-material .cm-type {
+.cm-s-zero .cm-variable-3,
+.cm-s-zero .cm-type {
     color: #DECB6B;
 }
 
-.cm-s-material .cm-error {
+.cm-s-zero .cm-error {
     color: rgba(255, 255, 255, 1.0);
     background-color: #FF5370;
 }
 
-.cm-s-material .CodeMirror-matchingbracket {
+.cm-s-zero .CodeMirror-matchingbracket {
     text-decoration: underline;
     color: white !important;
     outline: white solid 1px;
@@ -137,7 +133,7 @@
 
 /* hints */
 
-.CodeMirror-hints.material {
+.CodeMirror-hints.zero {
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     color: whitesmoke;
     background-color: #1f2830 !important;
@@ -148,11 +144,11 @@
     transition: all 0.15s;
 }
 
-.CodeMirror-hints.material:hover {
+.CodeMirror-hints.zero:hover {
     transform: scale(1.05);
 }
 
-.CodeMirror-hints.material .CodeMirror-hint-active {
+.CodeMirror-hints.zero .CodeMirror-hint-active {
     transition: all 0.15s;
     background-color: #02b757 !important;
     color: white !important;
